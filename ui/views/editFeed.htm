@@ -1,0 +1,119 @@
+      <form method="post" class="form-horizontal well" id="newFeed-panel">
+        <fieldset>
+          <h2> Feed Generator Options</h2>
+            <!-- Feed Url input-->
+            <div class="control-group">
+                <label class="control-label">Campaign Name</label>
+                <div class="controls ">
+                    <p><input name="campaign" type="text" placeholder="The name of the Campaign" required="true" value="{{@POST.campaign}}"/></p>
+                    <p class="help-block muted">
+                      Name of the ad campaign this is running for.
+                    </p>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Feed URLs</label>
+                <div class="controls ">
+                  <repeat group="{{ @POST.feedURLs }}" value="{{ @feedURL }}">
+                    <p><input id="feedUrl1" name="feedUrl[]" type="url" placeholder="First Feed URL" required="true" value="{{@feedURL}}"/></p>
+                  </repeat>
+                    <p class="help-block muted">
+                      The feed urls you'd like to use.
+                    </p>
+                </div>
+            </div>
+            <!-- Item Count input-->
+            <div class="control-group">
+                <label class="control-label">Item Count</label>
+                <div class="controls">
+                    <input id="itemCount" name="itemCount" type="text" value="{{@POST.itemCount}}"/> 
+                    <p class="help-block muted">(optional) -- Number of items allowed in final feed<br/>Minimum: 1</p>
+                </div>
+            </div>
+            <!-- address-line2 input-->
+            <div class="control-group">
+                <label class="control-label">Cache Time</label>
+                <div class="controls">
+                    <input id="cacheMinutes" name="cacheTime" type="text" value="{{@POST.cacheTime}}" />
+                    <p class="help-block muted">(optional) Time In Minutes. <br/>Minimum: 1</p>
+                </div>
+            </div>
+            <div class="accordion" id="accordion2">
+              <div class="accordion-group">
+                <div class="accordion-heading">
+                  <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne" id="image-feed-accordian">
+                    Image Feed Options <i id="accordionIndicator" class="icon-chevron-down"><!-- --></i></a>
+                </div>
+                <div id="collapseOne" class="accordion-body collapse">
+                  <div class="accordion-inner">
+                    <div class="control-group">
+                <label class="control-label">Allow Images</label>
+                <div class="controls">
+                    <input type="checkbox" id="allowImages" name="allowImages" value="{{@POST.allowImages}}" {{@allowImagesChecked}}/>
+                    <p class="help-block muted">This will search the feed for image tags, extract the images, and cache them on our servers.</p>
+                </div>
+            </div>
+            <!-- region input-->
+            <div class="control-group">
+                <label class="control-label">Facebook Image Caching </label>
+                <div class="controls">
+                    <input type="checkbox" id="isFacebook" name="isFacebook" value="{{@POST.isFacebook}}" {{@isFacebookChecked}}/>
+                    <p class="help-block muted">This will attempt to save the big version of the images in a facebook feed.</p>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Orientation Filtering</label>
+                <div class="controls">
+                    <select class="selectpicker" name="orientation">
+                      <option value="BOTH"><i class="icon-th-large" {{@orientationBothSelected}}><!-- --></i> Both</option>
+                      <option value="LANDSCAPE"><i class="icon-film" {{@orientationLandscapeSelected}}><!-- --></i> Landscape</option>
+                      <option value="PORTRAIT"><i class="icon-user" {{@orientationPortraitSelected}}><!-- --></i> Portrait</option>
+                    </select>
+                    <p class="help-block muted">Will only allow the orientation selected.<br/>Perfectly square images will always be included.</p>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Resize Images</label>
+                <div class="controls">
+                    <input type="checkbox" id="resizeImages" name="resizeImages" value="{{@POST.resizeImages}}" {{@resizeImagesChecked}}/>
+                    <p class="help-block muted">Allows you to resize images to a specific size</p>
+                </div>
+            </div>
+            <!-- country select -->
+            <div class="well" id= "resize-panel">
+             <h4>Image Resize Options</h4>
+              <div class="control-group">
+                  <label class="control-label">Max Width</label>
+                  <div class="controls">
+                      <input type="number" name="maxWidth"  value="{{@POST.maxWidth}}"/>
+                      <p class="help-block muted">Maximum width in pixels</p>
+                  </div>
+              </div>
+              <div class="control-group">
+                  <label class="control-label">Max Height</label>
+                  <div class="controls">
+                      <input type="number" name="maxHeight" value="{{@POST.maxHeight}}"/>
+                      <p class="help-block muted">Maximum height in pixels</p>
+                  </div>
+              </div>
+            </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- city input-->
+            
+            <div class="controls">
+              <button id="form-submit" type="submit" class="btn btn-primary input-medium">Update Feed</button>
+          </div>
+        </fieldset>
+      </form> <!--- new feed form -->
+
+     
+    <script>
+      $('select').selectpicker();
+
+</script>
+
+

@@ -1,0 +1,249 @@
+      <form method="post" class="form-horizontal hide well" id="newFeed-panel">
+        <fieldset>
+          <h2> Feed Generator Options</h2>
+            <!-- Feed Url input-->
+            <div class="control-group">
+                <label class="control-label">Campaign Name</label>
+                <div class="controls ">
+                    <p><input name="campaign" type="text" placeholder="The name of the Campaign" required="true"/></p>
+                    <p class="help-block muted">
+                      Name of the ad campaign this is running for.
+                    </p>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Feed URLs</label>
+                <div class="controls ">
+                    <p><input id="feedUrl1" name="feedUrl[]" type="url" placeholder="First Feed URL" required="true"/></p>
+                      <p><input id="feedUrl2" name="feedUrl[]" type="url" placeholder="Second Feed URL" /></p>
+                      
+                      <p><input id="feedUrl3" name="feedUrl[]" type="url" placeholder="Third Feed URL"/></p>
+                    <p class="help-block muted">
+                      The feed urls you'd like to use.
+                    </p>
+                </div>
+            </div>
+            <!-- Item Count input-->
+            <div class="control-group">
+                <label class="control-label">Item Count</label>
+                <div class="controls">
+                    <input id="itemCount" name="itemCount" type="text" value='10'/> 
+                    <p class="help-block muted">(optional) -- Number of items allowed in final feed<br/>Minimum: 1</p>
+                </div>
+            </div>
+            <!-- address-line2 input-->
+            <div class="control-group">
+                <label class="control-label">Cache Time</label>
+                <div class="controls">
+                    <input id="cacheTime" name="cacheMinutes" type="text" value="15" />
+                    <p class="help-block muted">(optional) Time In Minutes. <br/>Minimum: 1</p>
+                </div>
+            </div>
+            <div class="accordion" id="accordion2">
+              <div class="accordion-group">
+                <div class="accordion-heading">
+                  <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne" id="image-feed-accordian">
+                    Image Feed Options <i id="accordionIndicator" class="icon-chevron-down"><!-- --></i></a>
+                </div>
+                <div id="collapseOne" class="accordion-body collapse">
+                  <div class="accordion-inner">
+                    <div class="control-group">
+                <label class="control-label">Allow Images</label>
+                <div class="controls">
+                    <input type="checkbox" id="allowImages" name="allowImages" value="true" />
+                    <p class="help-block muted">This will search the feed for image tags, extract the images, and cache them on our servers.</p>
+                </div>
+            </div>
+            <!-- region input-->
+            <div class="control-group">
+                <label class="control-label">Facebook Image Caching </label>
+                <div class="controls">
+                    <input type="checkbox" id="isFacebook" name="isFacebook" value="true" />
+                    <p class="help-block muted">This will attempt to save the big version of the images in a facebook feed.</p>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Orientation Filtering</label>
+                <div class="controls">
+                    <select class="selectpicker" name="orientation">
+                      <option value="BOTH"><i class="icon-th-large"><!-- --></i> Both</option>
+                      <option value="LANDSCAPE"><i class="icon-film"><!-- --></i> Landscape</option>
+                      <option value="PORTRAIT"><i class="icon-user"><!-- --></i> Portrait</option>
+                    </select>
+                    <p class="help-block muted">Will only allow the orientation selected.<br/>Perfectly square images will always be included.</p>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Resize Images</label>
+                <div class="controls">
+                    <input type="checkbox" id="resizeImages" name="resizeImages" value="true" />
+                    <p class="help-block muted">Allows you to resize images to a specific size</p>
+                </div>
+            </div>
+            <!-- country select -->
+            <div class="well hide" id= "resize-panel">
+             <h4>Image Resize Options</h4>
+              <div class="control-group">
+                  <label class="control-label">Max Width</label>
+                  <div class="controls">
+                      <input type="number" name="maxWidth"  />
+                      <p class="help-block muted">Maximum width in pixels</p>
+                  </div>
+              </div>
+              <div class="control-group">
+                  <label class="control-label">Max Height</label>
+                  <div class="controls">
+                      <input type="number" name="maxHeight"/>
+                      <p class="help-block muted">Maximum height in pixels</p>
+                  </div>
+              </div>
+            </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- city input-->
+            
+            <div class="controls">
+              <button id="form-submit" type="submit" class="btn btn-primary input-medium">Generate Feed</button>
+          </div>
+        </fieldset>
+      </form> <!--- new feed form -->
+
+      <a id="createFeedButton" class="btn btn-success" style="margin-bottom: 10px; width: 280px;">New Feed</a>
+      <!-- FEED TABLE -->
+      <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="feed-table">        
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Campaign Name</th>
+            <th>Items</th>
+            <th>Cache Time</th>
+            <th>Images</th>
+            <th>Facebook</th>
+            <th>Resize Images</th>
+            <th>Orientation</th>
+            <th>URLS</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td class="truncate"></td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+
+    <script>
+      $('#resizeImages').change(function() {
+          if ($('#resize-panel').is(":hidden")) {
+            $('#resize-panel').slideDown();
+            $('#resize-panel :input').attr('required',true);
+          }
+          else {
+            $('#resize-panel').slideUp();
+            $('#resize-panel :input').removeAttr('required');
+          }
+      });
+
+      $('#createFeedButton').click(function(e) {
+        $('#newFeed-panel').slideDown();
+      });
+
+      $('.accordion-toggle').click(function(e) {
+        $('#accordionIndicator').toggleClass('icon-chevron-down').toggleClass('icon-chevron-up');
+      });
+
+      $('#resizeHelp').popover();
+      $('select').selectpicker();
+
+     $(document).ready(function() {
+
+      $.extend( $.fn.dataTableExt.oStdClasses, {
+          "sWrapper": "dataTables_wrapper form-inline"
+      } );
+        $('#feed-table').dataTable( {
+          'sAjaxSource': '/listFeeds',
+          "sDom": "<'row'<'span4'l><'span8'f>r>t<'row'<'span4'i><'span8'p>>",
+
+          'aoColumns': [
+            {'mData': 'id'}, // id
+            {'mData': 'campaign'}, //campaign name
+            {'mData': 'itemCount'},
+            {'mData':'cacheTime'}, // cache time
+            { 
+              'mData': 'allowImages',
+               'mRender': function(data,type,row) { //images
+                if (data == 0) 
+                  return '<i class="icon-remove"><!-- --></i>';
+                else 
+                  return '<i class="icon-ok"><!-- --></i>';
+              }
+            },
+            { 
+              'mData':'isFacebook',
+               'mRender': function(data,type,row) { //facebook
+                if (data == 0) 
+                  return ' <i class="icon-remove"><!-- --></i>';
+                else 
+                  return '<i class="icon-ok"><!-- --></i>';
+              }
+            },
+            {
+              'mData': 'resizeImages',
+              'mRender': function(data,type,row) { //
+                if (data == 0) 
+                  return '<i class="icon-remove"><!-- --></i>';
+                else 
+                  return 'Max Width:' + row.maxWidth + '<br/>Max Height:' + row.maxHeight;
+              }
+            },
+            { //orientation
+              'mData': 'orientation',
+              "mRender": function(data,type,row) { //URLS
+                if (data == 'POTRAIT') 
+                  return '<i class="icon-user"><!-- --></i>' ;
+                else if (data == 'LANDSCAPE') 
+                  return '<i class="icon-film"><!-- --></i>';
+                else 
+                  return '<i class="icon-th-large"><!-- --></i>';
+              }
+            },
+            { 
+              //Urls
+              'mData':'urls',
+              'sClass': 'truncate',
+
+               "mRender": function(data,type,row) { //resize
+                var urls = row.urls.split(' ');
+                var out = new Array();
+                urls.forEach(function(el, i, array) { 
+                  out.push('<a href="'+el + '" target="_new" >' + el + '</a>');
+                });
+                return out.join('<br/>');
+              }
+            },
+             { 
+              //Urls
+              'mData': null,
+               "mRender": function(data,type,row) { //resize
+                return '<a href="/getFeed/' + row.id + '" target="_new">View Feed</a> <a href="editFeed/' + row.id +'">Edit</a>';
+              }
+            }
+          ]
+        } );
+      } );
+
+</script>
+
+

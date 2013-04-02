@@ -1,0 +1,168 @@
+      <form method="post" class="form-horizontal hide well" id="newPoll-panel">
+        <fieldset>
+          <h2> Poll Generator Options</h2>
+            <!-- Feed Url input-->
+            <div class="control-group">
+                <label class="control-label">Campaign Name</label>
+                <div class="controls ">
+                    <p><input name="campaign" type="text" placeholder="The name of the Campaign" required="true"/></p>
+                    <p class="help-block muted">
+                      Name of the ad campaign this is running for.
+                    </p>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Poll Question</label>
+                <div class="controls">
+                    <input id="question" name="question" type="text" placeholder="How many cookies do you want?" class="span6"/> 
+                    <p class="help-block muted">The question to be answered</p>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Poll Options</label>
+                <div class="controls">
+                    <p><input id="pollOption1" name="pollOptions[]" type="text" placeholder="One Cookie" class="span6" required="true"/></p>
+                      <p><input id="pollOption2" name="pollOptions[]" type="text" placeholder="Two Cookies" class="span6" required="true"/></p>
+                      <p><input id="pollOption3" name="pollOptions[]" type="text" placeholder="All The Cookies" class="span6"/></p>
+                    <p class="help-block muted">
+                      The possible options allowed.
+                    </p>
+                </div>
+            </div>
+            <div class="controls">
+              <button id="form-submit" type="submit" class="btn btn-primary input-medium">Generate Poll</button>
+          </div>
+        </fieldset>
+      </form> <!--- new feed form -->
+
+
+
+      <div class="modal hide fade" id="results-modal">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h3>Poll Results</h3>
+        </div>
+        <div class="modal-body">
+          <div class="progress progress-striped active">
+            <div class="bar" style="width: 100%;">Loading...</div>
+          </div>
+          <p><div id="chart-display" class="hide" style="width:640px; height: 480px;"><!-- --></div></p>
+        </div>
+        <div class="modal-footer">
+          <a href="#" data-dismiss="modal" class="btn">Close</a>
+        </div>
+      </div>
+
+      <a id="createPollButton" class="btn btn-success" style="margin-bottom: 10px; width: 280px;">New Poll</a>
+      <!-- FEED TABLE -->
+      <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="poll-table">        
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Campaign Name</th>
+            <th>Question</th>
+            <th>Options</th>
+            <th>Total Votes</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+    <script>
+      google.load('visualization', '1.0', {'packages':['corechart']});
+
+      $('#createPollButton').click(function(e) {
+        $('#newPoll-panel').slideDown();
+      });
+
+     $(document).ready(function() {
+
+
+      $.extend( $.fn.dataTableExt.oStdClasses, {
+          "sWrapper": "dataTables_wrapper form-inline"
+      } );
+        $('#poll-table').dataTable( {
+          'sAjaxSource': '/listPolls',
+          "sDom": "<'row'<'span4'l><'span8'f>r>t<'row'<'span4'i><'span8'p>>",
+
+          'aoColumns': [
+            {'mData': 'id'}, // id
+            {'mData': 'campaign'}, //campaign name
+            {'mData': 'question'},
+            { 
+              'mData':'options',
+              'mRender': function(data,type,row) {
+                var options = data.split('::~::');
+                var out =  new Array();
+                out.push('<ol>');
+                options.forEach(function(el,index,array) {
+                  out.push('<li>' + el + '</li>');
+                });
+                out.push('</ol>');
+                return out.join('\n');
+              }
+            }, // cache time
+            { 'mData': 'total_votes'},
+            {
+              'mData': null,
+              'mRender': function(data,type,row) {
+                console.log(row);
+                return '<a class="poll-results" href="#results-modal" roll="button" data-toggle="modal" data-poll="' + row.id + '">Results</a> <a href="#">Reset</a>';
+              } 
+            }
+          ],
+        } );
+
+          $(document).on('click','.poll-results',function(e) {
+            $('results-modal').modal('show');
+              $('#chart-display').hide();
+              $('.progress').slideDown();
+
+
+              e.preventDefault();
+              var poll_id = $(this).data('poll');
+              $.ajax('/poll/' + poll_id, { dataType: 'json' }).done(function(json) {
+                var data = new google.visualization.DataTable();
+                  data.addColumn('string', 'Question');
+                  data.addColumn('number', 'Votes');
+                  json.forEach(function(el, index,array) {
+                    console.log(el);
+                    console.log(el.option_text);
+                    console.log(el.votes);
+                    data.addRow([el.option_text,Number(el.votes)]);
+                });
+                  console.log('%o',data);
+                var options = { 
+                    'title': json[0].question,
+                    'width': 640,
+                    'height': 480
+                };
+
+
+
+                var chart = new google.visualization.PieChart(document.getElementById('chart-display'));
+                google.visualization.events.addListener(chart, 'ready',
+                    function(event) {                    
+                      console.log('ready!');
+                      $('.progress').slideUp();
+                      console.log($('#chart-display'));
+                      $('#chart-display').slideDown();
+                });
+                chart.draw(data,options);
+              });
+          });
+
+      } );
+
+</script>
+
+

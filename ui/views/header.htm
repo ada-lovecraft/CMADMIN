@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<base href="{{getBaseUrl()}}" />
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Feed Generator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+   
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="ui/js/html5shiv.js"></script>
+    <![endif]-->
+
+    <!-- Fav and touch icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="ui/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="ui/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="ui/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="ui/ico/apple-touch-icon-57-precomposed.png">
+    <link rel="shortcut icon" href="ui/ico/favicon.png">
+
+
+    <!-- styles -->
+    <link href="ui/css/bootstrap.css" rel="stylesheet">
+    <link href="ui/css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="ui/css/bootstrap-select.min.css" rel="stylesheet">
+    <link href="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/css/jquery.dataTables.css" rel="stylesheet" type="text/css" />
+    <link href="ui/css/custom.css" rel="stylesheet" type="text/css" />
+    <link href="ui/css/DT_bootstrap.css" rel="stylesheet" type="text/css" />
+
+    
+    
+    <!-- jquery -->
+    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script src="ui/js/jquery-ui.min.js"></script>
+
+    <!-- scripts -->
+    <script src="ui/js/bootstrap.min.js"></script>
+    <script src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.min.js" type="text/javascript"></script>
+    <script src="ui/js/bootstrap-select.min.js"></script>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+
+
+
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="brand" href="#">CMAD API Admin</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              <check if="{{@inc == 'index.htm'}}">
+                <true>
+                  <li class="active">
+                </true>
+                <false>
+                  <li>
+                </false>
+              </check>
+              <a href="/">Home</a></li>
+              <check if="{{@inc == 'feeds.htm'}}">
+                <true>
+                  <li class="active">
+                </true>
+                <false>
+                  <li>
+                </false>
+              </check>
+              <a href="/feeds">Feeds</a></li>
+              <check if="{{@inc == 'images.htm'}}">
+                <true>
+                  <li class="active">
+                </true>
+                <false>
+                  <li>
+                </false>
+              </check>
+              <a href="#">Images</a></li>
+               <check if="{{@inc == 'polls.htm'}}">
+                <true>
+                  <li class="active">
+                </true>
+                <false>
+                  <li>
+                </false>
+              </check>
+              <a href="/polls">Polls</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
